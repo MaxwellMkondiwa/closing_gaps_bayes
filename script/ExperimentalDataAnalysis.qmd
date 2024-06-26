@@ -1,0 +1,227 @@
+---
+title: "ExperimentalDataAnalysis"
+format: html
+editor: visual
+---
+
+# Experimental Data Analytics
+
+```{r}
+
+newdata=read.csv("G:/My Drive/2021 Malawi Bayes Fertilizer/Data/dta/ExperimentalData/Rawdata.csv",header=TRUE,sep=",")
+attach(newdata)
+summary(newdata)
+head(newdata)
+newdata=na.omit(newdata)
+#newdata=within(newdata,relevel(newdata$y95_96,"1997/98"))
+names(newdata)
+
+###
+# Summarize by RDP and treatment
+library(data.table)
+newdata_dt=data.table(newdata)
+
+
+RDPsummaries <- function(DT) {
+  DT <- copy(DT)                             ## deep copy
+  DT[, .(yieldrdpmean = mean(yield,na.rm=TRUE),
+         yieldrdpcount = .N,
+         yieldrdpsd = sd(yield,na.rm=TRUE)), by=.(rdp,trt,y95_96)]
+}
+
+newdataRDPsummaries=RDPsummaries(newdata_dt)
+
+
+expyielddata=subset(newdata,select=c(yield,trt, y95_96))
+library(psych)
+attach(expyielddata)
+expyielddata_descriptives=describeBy(expyielddata$yield,list(expyielddata$trt,expyielddata$y95_96),mat=TRUE,digits=2)
+
+expyielddata_descriptives$CV=(expyielddata_descriptives$sd/expyielddata_descriptives$mean)*100
+
+
+
+write.csv(expyielddata_descriptives,file="Tables/expyielddata_descriptives.csv")
+
+
+
+## Mean-Std deviation check
+library(ggplot2)
+p <- ggplot(newdataRDPsummaries, aes(x=yieldrdpmean, y=yieldrdpsd,label =rdp))+
+  geom_point(color = 'blue')+
+#geom_label()+
+facet_wrap( ~trt)  
+previous_theme <- theme_set(theme_bw())
+p
+
+### Bayesian linear model
+library(MCMCpack)
+ExperimentalLinearModel=MCMCregress(yield~N+Nsq+P2O5+S+y95_96+mz_var+lite_txt+rdp,data=newdata)
+
+summary(ExperimentalLinearModel)
+
+ExperimentalLinearModeldt=as.matrix(ExperimentalLinearModel)
+ExperimentalLinearModeldt=as.data.frame(ExperimentalLinearModeldt)
+
+ExperimentalLinearModeldt$AvMe=ExperimentalLinearModeldt$N+ExperimentalLinearModeldt$Nsq*55
+
+
+
+
+
+ExperimentalModelregtable <- mcmctab(ExperimentalLinearModeldt)
+
+ExperimentalModelmcmctable1 <- ExperimentalModelregtable[,c(1:6)]
+
+library(xtable)
+ExperimentalModelmcmctable1=xtable(ExperimentalModelmcmctable1)
+print(ExperimentalModelmcmctable1, type = "html", file = "G:/My Drive/2021 Malawi Bayes Fertilizer/Data/Tables/ExperimentalModeltable1.doc")
+
+#### Marginal effects and VCR
+p=43.39
+r=102.01
+
+# p=43.39
+# r=51
+# p=43.39
+# r=0
+# p=43.39
+# r=153
+#p=43.39
+#r=204
+
+ratio=r/p
+ratiopr=p/r
+library(tidyr)
+library(margins)
+
+ExperimentalLinearModeldt=as.matrix(ExperimentalLinearModel)
+ExperimentalLinearModeldt=as.data.frame(ExperimentalLinearModeldt)
+
+AvMe=ExperimentalLinearModeldt$N+ExperimentalLinearModeldt$Nsq*55
+
+AvMeVCR=AvMe*ratiopr
+
+VCRatOptimalExperimentalRecommendations=ratiopr*(ExperimentalLinearModeldt$N+ExperimentalLinearModeldt$Nsq*xsoln)
+
+hist(VCRatOptimalExperimentalRecommendations)
+AgOptimum=-(ExperimentalLinearModeldt$N/ExperimentalLinearModeldt$Nsq)
+
+hist(AgOptimum)
+```
+
+# Combining Survey and experimental evidence
+
+```{r}
+source("G:/My Drive/2021 Malawi Bayes Fertilizer/Data/Rcodes/mcmctab.R")
+forcdfnoninformartiveprior_result=mcmctab(forcdfnoninformartiveprior)
+write.csv(forcdfnoninformartiveprior_result,"G:/My Drive/2021 Malawi Bayes Fertilizer/Data/Tables/forcdfnoninformartiveprior_result.csv")
+
+
+
+# Informative Bayesian Estimates
+##### With Experimental Priors
+#load("D:/OneDrive/PhD Dissertation/Essay 1/Data and Models/WorkingSpace17thMarch.RData")
+
+b0=c(0,0,0,0,	0	,0,	0,0	,0,	0	,0,	0	,0,	0	,0,	0	,0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0)
+# 
+B0=c(0.0001,0.0001,0,0,	0	,0,	0,0	,0,	0	,0,	0	,0,	0	,0,	0	,0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0 )
+
+ActualExperSurveyDataBayes <- MCMCregress(yieldmaizeall~totalNuse_kg_ha + totalNuse_kg_hasq +
+    organicfertuse + totalfamilylaborperha +ag_g01+ soiltype + soilquality + rainfall + 
+    elevation + slope + hectaresgps + head_gender + head_age + 
+    hhsize + poor + head_edlevel + dist_hh + district,b0=b0,B0=B0, data=Maizefivelegumesdatanfinalwithsystem,verbose=TRUE)
+
+# b0=c(0,25.41,0,0,	0	,0,	0,0	,0,	0	,0,	0	,0,	0	,0,	0	,0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0)
+# 
+# B0=c(0.1,0.8417,10000,0,	0	,0,	0,0	,0,	0	,0,	0	,0,	0	,0,	0	,0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0 )
+
+################################With Informative Priors
+# ActualExperSurveyDataBayes <- MCMCregress(yieldmaizeall~totalNuse_kg_ha + totalNuse_kg_hasq +
+#     organicfertuse + totalfamilylaborperha +ag_g01+ soiltype + soilquality + rainfall + 
+#     elevation + slope + hectaresgps + head_gender + head_age + 
+#     hhsize + poor + head_edlevel + dist_hh + district, data=Maizefivelegumesdatanfinalwithsystem,  marginal.likelihood="Chib95",b0=b0,B0=B0,verbose=TRUE)
+
+summary(ActualExperSurveyDataBayes)
+
+source("G:/My Drive/2021 Malawi Bayes Fertilizer/Data/Rcodes/mcmctab.R")
+ActualExperSurveyDataBayesregtable <- mcmctab(ActualExperSurveyDataBayes)
+
+ActualExperSurveyDataBayesmcmctable1 <- ActualExperSurveyDataBayesregtable[,c(1:6)]
+
+library(xtable)
+ActualExperSurveyDataBayesmcmctable1=xtable(ActualExperSurveyDataBayesmcmctable1)
+
+
+
+
+ActualExperSurveyDataBayesdt=as.matrix(ActualExperSurveyDataBayes)
+ActualExperSurveyDataBayesdt=as.data.frame(ActualExperSurveyDataBayesdt)
+
+ActualExperSurveyDataBayesdt$AvMe=ActualExperSurveyDataBayesdt$totalNuse_kg_ha+ActualExperSurveyDataBayesdt$totalNuse_kg_hasq*55
+
+####
+Maize_Only_ModelNMat=as.data.frame(Maize_Only_ModelNMat)
+ActualExperSurveyDataBayesdt=as.data.frame(ActualExperSurveyDataBayesdt)
+ExperimentalLinearModeldt=as.data.frame(ExperimentalLinearModeldt)
+
+library(ggplot2)
+dfvarfromData <- data.frame(x = c(Maize_Only_ModelNMat$totalNuse_kg_ha,ActualExperSurveyDataBayesdt$totalNuse_kg_ha,ExperimentalLinearModeldt$N),Evidence = factor(rep(c("1.Survey","2.Bayes","3.Experiment"), c(10000,10000,10000))))
+
+
+dfvarfromData <- dfvarfromData[order(dfvarfromData$x), ]
+
+dfvarfromData$ecdf <- ave(dfvarfromData$x, dfvarfromData$Evidence, FUN=function(x) seq_along(x)/length(x))
+
+stochasticdominancevarfromData=ggplot(dfvarfromData, aes(x, ecdf, colour = Evidence,linetype=Evidence)) + 
+  geom_line(lwd=1) + 
+  scale_linetype_manual(values = c(1,2,3))+
+  
+  xlab("Posterior parameter on N fertilizer use") +
+  ylab("Probability") 
+
+previous_theme <- theme_set(theme_bw())
+stochasticdominancevarfromData
+ggsave("stochasticdominancevarfromData.png", dpi=300)
+
+
+
+
+# Using district as hierarchy
+ExperimentalHierModel=MCMChregress(fixed=yield~N+Nsq+P2O5+S+y95_96+mz_var+lite_txt,random=~N+Nsq+P2O5+S+y95_96+mz_var+lite_txt,data=newdata, verbose=1,group = "District",R=diag(9),r=9,nu=0.001,delta=0.001)
+
+## Experimental district level estimates
+summary(ExperimentalHierModel$mcmc)
+ExperimentalHierModelmcmc=ExperimentalHierModel$mcmc
+
+##
+ExperimentalHierModelregtable <- mcmctab(ExperimentalHierModel$mcmc)
+
+ExperimentalHierModelmcmctable1 <- ExperimentalHierModelregtable[c(35:59),]
+
+library(xtable)
+ExperimentalHierModelmcmctable1=xtable(ExperimentalHierModelmcmctable1)
+print(ExperimentalHierModelmcmctable1, type = "html", file = "C:/Users/mkond/OneDrive/PhD Dissertation/Essay 1/Data and Models/ExperimentalHierModeltable1.doc")
+
+####################################################
+#ExperimentalHierModelFixedRan <- summary(ExperimentalHierModel$mcmc[ , grepl("b.N.", colnames(ExperimentalHierModel$mcmc))] + ExperimentalHierModel$mcmc[ , "beta.N"])
+
+##
+ExperimentalHierModelFixedRan <- summary(ExperimentalHierModel$mcmc[ , grepl("b.N", colnames(ExperimentalHierModel$mcmc))])
+                                         
+plot(ecdf(ExperimentalHierModelFixedRan $statistics[,1]))
+
+library(ggplot2)
+ExperimentalHierModelFixedRanstats=as.data.frame(ExperimentalHierModelFixedRan$statistics[,1])
+
+qplot(ExperimentalHierModelFixedRanstats$`ExperimentalHierModelFixedRan$statistics[, 1]`, data =ExperimentalHierModelFixedRanstats, geom = "density")
+
+#####
+summary(ExperimentalHierModel$mcmc[,c("beta.N", "VCV.N.N", "beta.Nsq","VCV.Nsq.Nsq")])
+```
+
+# Gelman and Rubin test
+
+```{r}
+#gelman.plot(Surveyhierdistrictmcmc)
+```
