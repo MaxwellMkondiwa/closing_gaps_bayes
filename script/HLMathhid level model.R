@@ -11,9 +11,9 @@ rayposteriorhierhhid=MCMChregress(fixed=yieldnorm~totalfertuse_kg_ha + totalfert
                                   group = "hhid",R=diag(24),r=24,nu=0.001,delta=0.001)
 
 #################################################################
-ride.constWood <- summary(rayposteriorhierhhid$mcmc[ , grepl("b.totalfertuse_kg_ha", 
+HHid_hierachical_sum <- summary(rayposteriorhierhhid$mcmc[ , grepl("b.totalfertuse_kg_ha", 
                                                              colnames(rayposteriorhierhhid$mcmc))] + rayposteriorhierhhid$mcmc[ , "beta.totalfertuse_kg_ha"])
 
-plot(density(ride.constWood$statistics[,1]),xlim=c(-50,50))
+plot(density(HHid_hierachical_sum $statistics[,1]),xlim=c(-50,50))
 
-summary(ride.constWood$statistics[,1])
+summary(HHid_hierachical_sum $statistics[,1])
