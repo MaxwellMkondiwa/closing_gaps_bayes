@@ -1,0 +1,30 @@
+<!-- html table generated in R 4.3.3 by xtable 1.8-4 package -->
+<!-- Sun Jun 30 10:42:37 2024 -->
+<table border=1>
+<tr> <th>  </th> <th> Variable </th> <th> Median </th> <th> Mean </th> <th> SD </th> <th> Lower </th> <th> Upper </th>  </tr>
+  <tr> <td align="right"> 35 </td> <td> b.N.Balaka </td> <td align="right"> 21.22 </td> <td align="right"> 19.80 </td> <td align="right"> 1186.74 </td> <td align="right"> -2106.62 </td> <td align="right"> 2002.97 </td> </tr>
+  <tr> <td align="right"> 36 </td> <td> b.N.Blantyre </td> <td align="right"> 24.24 </td> <td align="right"> 28.83 </td> <td align="right"> 1104.40 </td> <td align="right"> -1993.91 </td> <td align="right"> 1956.10 </td> </tr>
+  <tr> <td align="right"> 37 </td> <td> b.N.Chikwawa </td> <td align="right"> 0.72 </td> <td align="right"> 14.99 </td> <td align="right"> 1082.97 </td> <td align="right"> -2011.62 </td> <td align="right"> 1949.35 </td> </tr>
+  <tr> <td align="right"> 38 </td> <td> b.N.Chitipa </td> <td align="right"> 26.50 </td> <td align="right"> 35.08 </td> <td align="right"> 1103.74 </td> <td align="right"> -2016.06 </td> <td align="right"> 1996.22 </td> </tr>
+  <tr> <td align="right"> 39 </td> <td> b.N.Dedza </td> <td align="right"> 44.10 </td> <td align="right"> 33.44 </td> <td align="right"> 1031.25 </td> <td align="right"> -1932.74 </td> <td align="right"> 1947.56 </td> </tr>
+  <tr> <td align="right"> 40 </td> <td> b.N.Dowa </td> <td align="right"> 4.04 </td> <td align="right"> 20.12 </td> <td align="right"> 1101.27 </td> <td align="right"> -2003.59 </td> <td align="right"> 1958.81 </td> </tr>
+  <tr> <td align="right"> 41 </td> <td> b.N.Karonga </td> <td align="right"> 30.71 </td> <td align="right"> 26.01 </td> <td align="right"> 1120.29 </td> <td align="right"> -2053.58 </td> <td align="right"> 1984.57 </td> </tr>
+  <tr> <td align="right"> 42 </td> <td> b.N.Kasungu </td> <td align="right"> 25.60 </td> <td align="right"> 34.87 </td> <td align="right"> 1136.98 </td> <td align="right"> -2058.06 </td> <td align="right"> 2006.13 </td> </tr>
+  <tr> <td align="right"> 43 </td> <td> b.N.Lilongwe </td> <td align="right"> 60.38 </td> <td align="right"> 36.38 </td> <td align="right"> 1007.53 </td> <td align="right"> -1909.29 </td> <td align="right"> 1850.45 </td> </tr>
+  <tr> <td align="right"> 44 </td> <td> b.N.Machinga </td> <td align="right"> 29.62 </td> <td align="right"> 20.88 </td> <td align="right"> 1191.31 </td> <td align="right"> -2106.79 </td> <td align="right"> 1957.07 </td> </tr>
+  <tr> <td align="right"> 45 </td> <td> b.N.Mangochi </td> <td align="right"> 59.93 </td> <td align="right"> 43.85 </td> <td align="right"> 1030.97 </td> <td align="right"> -1910.77 </td> <td align="right"> 1941.22 </td> </tr>
+  <tr> <td align="right"> 46 </td> <td> b.N.Mchinji </td> <td align="right"> 22.52 </td> <td align="right"> 30.57 </td> <td align="right"> 1105.41 </td> <td align="right"> -2015.29 </td> <td align="right"> 1999.56 </td> </tr>
+  <tr> <td align="right"> 47 </td> <td> b.N.Mulanje </td> <td align="right"> 19.80 </td> <td align="right"> 20.54 </td> <td align="right"> 1263.64 </td> <td align="right"> -2110.24 </td> <td align="right"> 2155.20 </td> </tr>
+  <tr> <td align="right"> 48 </td> <td> b.N.Mwanza </td> <td align="right"> 24.92 </td> <td align="right"> 31.86 </td> <td align="right"> 1198.35 </td> <td align="right"> -2079.50 </td> <td align="right"> 2059.87 </td> </tr>
+  <tr> <td align="right"> 49 </td> <td> b.N.Mzimba </td> <td align="right"> 27.51 </td> <td align="right"> 17.68 </td> <td align="right"> 994.36 </td> <td align="right"> -1948.19 </td> <td align="right"> 1881.24 </td> </tr>
+  <tr> <td align="right"> 50 </td> <td> b.N.Nkhata Bay </td> <td align="right"> 41.71 </td> <td align="right"> 41.39 </td> <td align="right"> 1116.40 </td> <td align="right"> -2008.28 </td> <td align="right"> 1942.56 </td> </tr>
+  <tr> <td align="right"> 51 </td> <td> b.N.Nkhotakota </td> <td align="right"> 14.13 </td> <td align="right"> 20.58 </td> <td align="right"> 1211.91 </td> <td align="right"> -2123.20 </td> <td align="right"> 2046.93 </td> </tr>
+  <tr> <td align="right"> 52 </td> <td> b.N.Nsanje </td> <td align="right"> 8.35 </td> <td align="right"> 26.78 </td> <td align="right"> 1227.40 </td> <td align="right"> -2107.68 </td> <td align="right"> 2011.46 </td> </tr>
+  <tr> <td align="right"> 53 </td> <td> b.N.Ntcheu </td> <td align="right"> 26.65 </td> <td align="right"> 30.52 </td> <td align="right"> 1154.99 </td> <td align="right"> -2065.28 </td> <td align="right"> 1971.13 </td> </tr>
+  <tr> <td align="right"> 54 </td> <td> b.N.Ntchisi </td> <td align="right"> 16.96 </td> <td align="right"> 35.30 </td> <td align="right"> 1162.21 </td> <td align="right"> -1984.81 </td> <td align="right"> 2009.09 </td> </tr>
+  <tr> <td align="right"> 55 </td> <td> b.N.Phalombe </td> <td align="right"> 30.65 </td> <td align="right"> 25.06 </td> <td align="right"> 1177.28 </td> <td align="right"> -2073.21 </td> <td align="right"> 1971.35 </td> </tr>
+  <tr> <td align="right"> 56 </td> <td> b.N.Rumphi </td> <td align="right"> 42.47 </td> <td align="right"> 38.92 </td> <td align="right"> 1048.26 </td> <td align="right"> -1946.73 </td> <td align="right"> 1952.37 </td> </tr>
+  <tr> <td align="right"> 57 </td> <td> b.N.Salima </td> <td align="right"> 33.23 </td> <td align="right"> 32.63 </td> <td align="right"> 1184.72 </td> <td align="right"> -2108.36 </td> <td align="right"> 2029.45 </td> </tr>
+  <tr> <td align="right"> 58 </td> <td> b.N.Thyolo </td> <td align="right"> 31.71 </td> <td align="right"> 29.58 </td> <td align="right"> 1214.66 </td> <td align="right"> -2098.91 </td> <td align="right"> 2046.70 </td> </tr>
+  <tr> <td align="right"> 59 </td> <td> b.N.Zomba </td> <td align="right"> 9.06 </td> <td align="right"> 21.94 </td> <td align="right"> 1089.50 </td> <td align="right"> -1983.97 </td> <td align="right"> 1935.99 </td> </tr>
+   </table>

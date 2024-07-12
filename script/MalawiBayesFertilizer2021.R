@@ -28,23 +28,20 @@ library(haven)
 set.seed(1)
 
 # AG MOD A[HOUSEHOLD LEVEL] -----------------------
-setwd("G:/My Drive/2021 Malawi Bayes Fertilizer/Data/dta")
-AG_MOD_A_FILT=read.dta13("AG_MOD_A_FILT.dta")
+AG_MOD_A_FILT=read.dta13("dta/AG_MOD_A_FILT.dta")
 attach(AG_MOD_A_FILT)
 summary(AG_MOD_A_FILT)
 get.varlabel(AG_MOD_A_FILT)
 CrossTable(AG_MOD_A_FILT$ag_c01)
 
 # AG MOD B[CROP LEVEL] ----------------------------
-setwd("G:/My Drive/2021 Malawi Bayes Fertilizer/Data/dta")
-AG_MOD_B=read.dta13("AG_MOD_B.dta")
+AG_MOD_B=read.dta13("dta/AG_MOD_B.dta")
 attach(AG_MOD_B)
 summary(ag_b01a)
 plot(ecdf(ag_b01a),xlim=c(0,6))
 
 # AG MOD C[PLOT LEVEL] ----------------------------
-setwd("G:/My Drive/2021 Malawi Bayes Fertilizer/Data/dta")
-AG_MOD_C=read.dta13("AG_MOD_C.dta",generate.factors=T)
+AG_MOD_C=read.dta13("dta/AG_MOD_C.dta",generate.factors=T)
 attach(AG_MOD_C)
 summary(ag_c02)
 summary(ag_c04c)
@@ -97,8 +94,7 @@ head(sort(AG_MOD_C_wide$GPSFarmsize, decreasing = TRUE), n=10)
 
 # PLOT GEOVARIABLES[PLOT LEVEL] ---------------------
 # There are only 18329 plots that were georeferenced using the distance from the plot to the home.
-setwd("G:/My Drive/2021 Malawi Bayes Fertilizer/Data/dta")
-PlotGeovariables=read.dta("PlotGeovariables.dta")
+PlotGeovariables=read.dta("dta/PlotGeovariables.dta")
 attach(PlotGeovariables)
 names(PlotGeovariables)
 
@@ -106,8 +102,8 @@ PlotGeovariableswide=reshape(PlotGeovariables,v.names="dist_hh",idvar="case_id",
 attach(PlotGeovariableswide)
 
 # HOUSEHOLD GEOVARIABLES [HOUSEHOLD LEVEL] -----------------------------
-setwd("G:/My Drive/2021 Malawi Bayes Fertilizer/Data/dta")
-HouseholdGeovariables=read.dta("HouseholdGeovariables.dta")
+
+HouseholdGeovariables=read.dta("dta/HouseholdGeovariables.dta")
 attach(HouseholdGeovariables)
 names(HouseholdGeovariables)
 
@@ -129,8 +125,8 @@ surf3 <- mba.surf(cbind(coords, HouseholdGeovariables$dist_boma), no.X=x.res, no
 image.plot(surf3, xaxs = "r", yaxs = "r", xlab="Lat", ylab="Long")
 
 # SUMMARY [HOUSEHOLD] ----------------------------
-setwd("G:/My Drive/2021 Malawi Bayes Fertilizer/Data/dta")
-ihs3_summary=read.dta13("ihs3_summary.dta")
+
+ihs3_summary=read.dta13("dta/ihs3_summary.dta")
 attach(ihs3_summary)
 # Merging geovariables
 
@@ -167,8 +163,8 @@ detach(plotgeo_ihs3_summary_hh_geos_wide)
 
 # Merging plot level data: AG_MOD_C and AG_MOD_D -----
 # AG MOD C[PLOT LEVEL]
-setwd("G:/My Drive/2021 Malawi Bayes Fertilizer/Data/dta")
-AG_MOD_C=read.dta13("AG_MOD_C.dta",generate.factors=T)
+
+AG_MOD_C=read.dta13("dta/AG_MOD_C.dta",generate.factors=T)
 attach(AG_MOD_C)
 summary(ag_c02)
 summary(ag_c04c)
@@ -211,8 +207,8 @@ SD <- function(x) base::sd(x, na.rm=TRUE)
 tabular(district ~ Format(digits=2)*(hhsize+hectaresgps+hectaresfarmer)*(Mean+sd),data=plotgeo_ihs3_summary_hh_geos_wide_formergings_AG_MOD_Cs)
 
 ######################## AG MOD D[PLOT LEVEL]
-setwd("G:/My Drive/2021 Malawi Bayes Fertilizer/Data/dta")
-AG_MOD_D=read.dta13("AG_MOD_D.dta")
+
+AG_MOD_D=read.dta13("dta/AG_MOD_D.dta")
 attach(AG_MOD_D)
 summary(AG_MOD_D)
 #get.varlabel(AG_MOD_D)
@@ -233,8 +229,8 @@ tabular(district ~ Format(digits=2)*(hhsize+hectaresgps+hectaresfarmer)*(mean+sd
 # ag_d20b 
 
 # AG MOD G [PLOT CROP] ------------------------------------
-setwd("G:/My Drive/2021 Malawi Bayes Fertilizer/Data/dta")
-AG_MOD_G=read.dta13("AG_MOD_G.dta",generate.factors=T)
+
+AG_MOD_G=read.dta13("dta/AG_MOD_G.dta",generate.factors=T)
 attach(AG_MOD_G)
 summary(AG_MOD_G)
 get.label(AG_MOD_G)
@@ -658,9 +654,8 @@ round(summary(mcmc(cbind(bef.sp$p.beta.samples,bef.sp$p.theta.samples)))$quantil
 quantiles = c(0.025,0.50, 0.975)
 
 # CONVERSION FACTORS ----------------------------------------
-setwd("G:/My Drive/2021 Malawi Bayes Fertilizer/Data/dta")
 
-kgfactor=read.dta13("kgfactor.dta",generate.factors=T)
+kgfactor=read.dta13("dta/kgfactor.dta",generate.factors=T)
 get.varlabel(kgfactor)
 attach(kgfactor)
 
@@ -767,7 +762,7 @@ HHgeo_plotgeo_summary_C_D_GminsmallMaizeLegumes=bind_rows(HHgeo_plotgeo_summary_
                                                           HHgeo_plotgeo_summary_C_D_GminsmallPEA,
                                                           HHgeo_plotgeo_summary_C_D_GminsmallPIGEONPEA,
                                                           HHgeo_plotgeo_summary_C_D_GminsmallSOYABEAN)
-#save.image("C:/Users/mkond001/OneDrive/6_Spring 2016/APEC 8904/Paper/Data and Models/MaizeLegumePlotLevelData.RData")
+#save.image("temp/MaizeLegumePlotLevelData.RData")
 
 
 # Data Management for fertilizer and seeds variables ----------
