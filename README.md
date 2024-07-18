@@ -1,1 +1,1 @@
-This repository contains data and code accompanying a paper on "Closing the Gaps in Experimental and Observational Crop Response Estimates: A Bayesian Approach"
+This repository contains data and code accompanying a paper on "Closing the Gaps in Experimental and Observational Crop Response Estimates: A Bayesian Approach". Most of the analyses can be replicated using the code and datasets shared. All the remaining relevant files (e.g., big datafiles) to replicate the analyses will be uploaded by 20th August 2024. 
